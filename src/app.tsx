@@ -1,23 +1,27 @@
 import { JSX, useState } from "react";
-import dayjs from "dayjs";
-import { CalendarDemo } from "./calendar";
+import { addYears, toDate } from "date-fns";
+import CalendarDemo from "./calendar";
 import Clock from "./clock";
 
 let stored = localStorage.getItem("dob");
-let storedDob: dayjs.Dayjs | undefined = undefined;
+let storedDob: Date | undefined = undefined;
 if (stored) {
-  storedDob = dayjs(stored);
+  storedDob = toDate(stored);
 }
 
 function App(): JSX.Element {
-  const [dob, setDob] = useState<dayjs.Dayjs | undefined>(storedDob);
+  const [dob, setDob] = useState<Date | undefined>(storedDob);
 
   return (
     <>
       <div>
         <h1>Welcome!</h1>
       </div>
-      {!dob ? <CalendarDemo setDate={setDob} /> : <Clock time={dob} />}
+      {!dob ? (
+        <CalendarDemo setDate={setDob} />
+      ) : (
+        <Clock dob={dob} eod={addYears(dob, 80)} />
+      )}
     </>
   );
 }

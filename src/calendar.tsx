@@ -1,16 +1,26 @@
 import { useState } from "react";
-import dayjs from "dayjs";
+import { DateValues } from "date-fns";
 import { DayPicker as Calendar } from "react-day-picker";
 
-export function CalendarDemo(props: {
-  setDate: (dayjs: dayjs.Dayjs | undefined) => void;
-}) {
+function dateToDateFns(date: Date): DateValues {
+  return {
+    milliseconds: date.getTime(),
+    seconds: Math.floor(date.getTime() / 1000),
+    minutes: Math.floor(date.getTime() / 1000 / 60),
+    hours: Math.floor(date.getTime() / 1000 / 60 / 60),
+    date: date.getDate(),
+    month: date.getMonth(),
+    year: date.getFullYear(),
+  };
+}
+
+function CalendarDemo(props: { setDate: (dayjs: Date) => void }) {
   const [touched, setTouched] = useState(false);
 
-  const setCalendarInteraction = (date: Date | undefined): void => {
+  const setCalendarInteraction = (date: Date): void => {
     if (!date) return;
     setTouched(true);
-    props.setDate(dayjs(date));
+    props.setDate(date);
     console.log("picked date: ", date);
   };
 
@@ -21,6 +31,9 @@ export function CalendarDemo(props: {
       onSelect={setCalendarInteraction}
       className="rounded-md border shadow-sm"
       captionLayout="dropdown"
+      required={true}
     />
   );
 }
+
+export default CalendarDemo;
