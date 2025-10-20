@@ -5,6 +5,14 @@ function DisplaySetting(props: {
   setSetting: (s: DisplayConfig) => void;
 }) {
   const { setting, setSetting } = props;
+  const contextualSetSetting = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    index: number
+  ): void => {
+    const newSetting = [...setting];
+    newSetting[index] = e.target.checked;
+    setSetting(newSetting as DisplayConfig);
+  };
 
   return (
     <div>
@@ -13,15 +21,50 @@ function DisplaySetting(props: {
         type="checkbox"
         checked={setting[7]}
         value={"Year"}
-        onChange={setSetting}
+        onChange={(e) => contextualSetSetting(e, 7)}
       />
-      <input type="checkbox" checked={setting[6]} value={"Month"} />
-      <input type="checkbox" checked={setting[5]} value={"Week"} />
-      <input type="checkbox" checked={setting[4]} value={"Day"} />
-      <input type="checkbox" checked={setting[3]} value={"Hour"} />
-      <input type="checkbox" checked={setting[2]} value={"Minute"} />
-      <input type="checkbox" checked={setting[1]} value={"Second"} />
-      <input type="checkbox" checked={setting[0]} value={"Millisecond"} />
+      <input
+        type="checkbox"
+        checked={setting[6]}
+        value={"Month"}
+        onChange={(e) => contextualSetSetting(e, 6)}
+      />
+      <input
+        type="checkbox"
+        checked={setting[5]}
+        value={"Week"}
+        onChange={(e) => contextualSetSetting(e, 5)}
+      />
+      <input
+        type="checkbox"
+        checked={setting[4]}
+        value={"Day"}
+        onChange={(e) => contextualSetSetting(e, 4)}
+      />
+      <input
+        type="checkbox"
+        checked={setting[3]}
+        value={"Hour"}
+        onChange={(e) => contextualSetSetting(e, 3)}
+      />
+      <input
+        type="checkbox"
+        checked={setting[2]}
+        value={"Minute"}
+        onChange={(e) => contextualSetSetting(e, 2)}
+      />
+      <input
+        type="checkbox"
+        checked={setting[1]}
+        value={"Second"}
+        onChange={(e) => contextualSetSetting(e, 1)}
+      />
+      <input
+        type="checkbox"
+        checked={setting[0]}
+        value={"Millisecond"}
+        onChange={(e) => contextualSetSetting(e, 0)}
+      />
     </div>
   );
 }
