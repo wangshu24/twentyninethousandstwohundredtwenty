@@ -1,4 +1,4 @@
-import { ReactNode, useEffect, useState } from "react";
+import { ReactNode, useEffect, useState, useContext } from "react";
 import {
   differenceInMilliseconds,
   differenceInSeconds,
@@ -9,11 +9,15 @@ import {
   differenceInMonths,
   differenceInYears,
 } from "date-fns";
+import { SettingContext } from "./app";
+import { DisplayConfig } from "./displayFormat";
 
 function Clock(props: { dob: Date; eod: Date }) {
   const { dob, eod } = props;
   console.log("received time: ", dob);
   let duration = calculateDuration(eod);
+
+  let displaySetting: DisplayConfig = useContext(SettingContext);
 
   const [timeleft, setTimeleft] = useState<CustomDuration>(duration);
 
@@ -27,7 +31,7 @@ function Clock(props: { dob: Date; eod: Date }) {
 
   return (
     <div>
-      <h1>Clock: {timeleft.milliseconds}</h1>
+      <h1>Clock: {displayDuration(timeleft, displaySetting)}</h1>
     </div>
   );
 }
@@ -38,6 +42,7 @@ export type CustomDuration = {
   minutes: number;
   hours: number;
   days: number;
+  weeks: number;
   months: number;
   years: number;
 };
@@ -57,7 +62,35 @@ function calculateDuration(eod: Date): CustomDuration {
   return duration;
 }
 
-function displayDuration(time: CustomDuration): ReactNode {
+function displayDuration(
+  time: CustomDuration,
+  setting: DisplayConfig
+): ReactNode {
+  if (setting[0]) {
+    return time.years;
+  }
+  if (setting[1]) {
+    return time.months;
+  }
+  if (setting[2]) {
+    return time.weeks;
+  }
+  if (setting[3]) {
+    return time.days;
+  }
+  if (setting[4]) {
+    return time.hours;
+  }
+  if (setting[5]) {
+    return time.minutes;
+  }
+  if (setting[6]) {
+    return time.seconds;
+  }
+  if (setting[7]) {
+    return time.milliseconds;
+  }
+
   return time.milliseconds;
 }
 

@@ -1,14 +1,26 @@
-import { JSX, use, useState } from "react";
+import { JSX, createContext, useState } from "react";
 import { addYears, toDate } from "date-fns";
 import CalendarDemo from "./calendar";
 import Clock from "./clock";
 import { DisplayConfig } from "./displayFormat";
+import DisplaySetting from "./displaySetting";
 
 let stored = localStorage.getItem("dob");
 let storedDob: Date | undefined = undefined;
 if (stored) {
   storedDob = toDate(stored);
 }
+
+export const SettingContext = createContext<DisplayConfig>([
+  true,
+  true,
+  true,
+  true,
+  true,
+  true,
+  true,
+  true,
+]);
 
 function App(): JSX.Element {
   const [dob, setDob] = useState<Date | undefined>(storedDob);
@@ -23,7 +35,7 @@ function App(): JSX.Element {
     true,
   ]);
 
-  const restrictedSetSetting = (newSetting: DisplayConfig) => {
+  const restrictedSetSetting = (newSetting: DisplayConfig): void => {
     if (!newSetting.some((v) => v === true)) {
       return;
     }
@@ -32,14 +44,17 @@ function App(): JSX.Element {
 
   return (
     <>
+      <DisplaySetting setting={setting} setSetting={restrictedSetSetting} />
       <div>
         <h1>Welcome!</h1>
       </div>
-      {!dob ? (
-        <CalendarDemo setDate={setDob} />
-      ) : (
-        <Clock dob={dob} eod={addYears(dob, 80)} />
-      )}
+      <SettingContext.Provider value={setting}>
+        {!dob ? (
+          <CalendarDemo setDate={setDob} />
+        ) : (
+          <Clock dob={dob} eod={addYears(dob, 80)} />
+        )}
+      </SettingContext.Provider>
     </>
   );
 }
