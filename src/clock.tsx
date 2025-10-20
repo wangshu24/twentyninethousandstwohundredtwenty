@@ -67,56 +67,56 @@ function displayDuration(
   setting: DisplayConfig
 ): ReactNode {
   let displayStr = "";
-  if (setting[0]) {
+  if (setting[7]) {
     if (time.years >= 1) {
       displayStr += time.years + " years ";
     } else {
       displayStr += " year ";
     }
   }
-  if (setting[1]) {
+  if (setting[6]) {
     if (time.months >= 1) {
       displayStr += time.months + " months ";
     } else {
       displayStr += " month ";
     }
   }
-  if (setting[2]) {
+  if (setting[5]) {
     if (time.weeks >= 1) {
       displayStr += time.weeks + " weeks ";
     } else {
       displayStr += " week ";
     }
   }
-  if (setting[3]) {
+  if (setting[4]) {
     if (time.days >= 1) {
       displayStr += time.days + " days ";
     } else {
       displayStr += " day ";
     }
   }
-  if (setting[4]) {
+  if (setting[3]) {
     if (time.hours >= 1) {
       displayStr += time.hours + " hours ";
     } else {
       displayStr += " hour ";
     }
   }
-  if (setting[5]) {
+  if (setting[2]) {
     if (time.minutes >= 1) {
       displayStr += time.minutes + " minutes ";
     } else {
       displayStr += " minute ";
     }
   }
-  if (setting[6]) {
+  if (setting[1]) {
     if (time.seconds >= 1) {
       displayStr += time.seconds + " seconds ";
     } else {
       displayStr += " second ";
     }
   }
-  if (setting[7]) {
+  if (setting[0]) {
     if (time.milliseconds >= 1) {
       displayStr += time.milliseconds + " milliseconds ";
     } else {
