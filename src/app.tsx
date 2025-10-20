@@ -11,7 +11,7 @@ if (stored) {
   storedDob = toDate(stored);
 }
 
-export const SettingContext = createContext<DisplayConfig>([
+const DEFAULT_CONFIG = [
   true,
   true,
   true,
@@ -20,20 +20,13 @@ export const SettingContext = createContext<DisplayConfig>([
   true,
   true,
   true,
-]);
+] as DisplayConfig;
+
+export const SettingContext = createContext<DisplayConfig>(DEFAULT_CONFIG);
 
 function App(): JSX.Element {
   const [dob, setDob] = useState<Date | undefined>(storedDob);
-  const [setting, setSetting] = useState<DisplayConfig>([
-    true,
-    true,
-    true,
-    true,
-    true,
-    true,
-    true,
-    true,
-  ]);
+  const [setting, setSetting] = useState<DisplayConfig>(DEFAULT_CONFIG);
 
   const restrictedSetSetting = (newSetting: DisplayConfig): void => {
     if (!newSetting.some((v) => v === true)) {

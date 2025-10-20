@@ -66,32 +66,65 @@ function displayDuration(
   time: CustomDuration,
   setting: DisplayConfig
 ): ReactNode {
+  let displayStr = "";
   if (setting[0]) {
-    return time.years;
+    if (time.years >= 1) {
+      displayStr += time.years + " years ";
+    } else {
+      displayStr += " year ";
+    }
   }
   if (setting[1]) {
-    return time.months;
+    if (time.months >= 1) {
+      displayStr += time.months + " months ";
+    } else {
+      displayStr += " month ";
+    }
   }
   if (setting[2]) {
-    return time.weeks;
+    if (time.weeks >= 1) {
+      displayStr += time.weeks + " weeks ";
+    } else {
+      displayStr += " week ";
+    }
   }
   if (setting[3]) {
-    return time.days;
+    if (time.days >= 1) {
+      displayStr += time.days + " days ";
+    } else {
+      displayStr += " day ";
+    }
   }
   if (setting[4]) {
-    return time.hours;
+    if (time.hours >= 1) {
+      displayStr += time.hours + " hours ";
+    } else {
+      displayStr += " hour ";
+    }
   }
   if (setting[5]) {
-    return time.minutes;
+    if (time.minutes >= 1) {
+      displayStr += time.minutes + " minutes ";
+    } else {
+      displayStr += " minute ";
+    }
   }
   if (setting[6]) {
-    return time.seconds;
+    if (time.seconds >= 1) {
+      displayStr += time.seconds + " seconds ";
+    } else {
+      displayStr += " second ";
+    }
   }
   if (setting[7]) {
-    return time.milliseconds;
+    if (time.milliseconds >= 1) {
+      displayStr += time.milliseconds + " milliseconds ";
+    } else {
+      displayStr += " millisecond ";
+    }
   }
 
-  return time.milliseconds;
+  return displayStr;
 }
 
 export default Clock;
