@@ -1,6 +1,5 @@
-import { ReactNode, useEffect, useState } from "react";
+import { ReactNode, useEffect, useState, useContext } from "react";
 import {
-  Duration,
   differenceInMilliseconds,
   differenceInSeconds,
   differenceInMinutes,
@@ -10,23 +9,15 @@ import {
   differenceInMonths,
   differenceInYears,
 } from "date-fns";
-
-function dateToDurationFns(date: Date): Duration {
-  if (!date) throw new Error("date is undefined");
-  return {
-    seconds: Math.floor(date.getMilliseconds() / 1000),
-    minutes: Math.floor(date.getTime() / 1000 / 60),
-    hours: Math.floor(date.getTime() / 1000 / 60 / 60),
-    days: Math.floor(date.getTime() / 1000 / 60 / 60 / 24),
-    months: Math.floor(date.getTime() / 1000 / 60 / 60 / 24 / 30),
-    years: Math.floor(date.getTime() / 1000 / 60 / 60 / 24 / 365),
-  };
-}
+import { SettingContext } from "./app";
+import { DisplayConfig } from "./displayFormat";
 
 function Clock(props: { dob: Date; eod: Date }) {
   const { dob, eod } = props;
   console.log("received time: ", dob);
   let duration = calculateDuration(eod);
+
+  let displaySetting: DisplayConfig = useContext(SettingContext);
 
   const [timeleft, setTimeleft] = useState<CustomDuration>(duration);
 
@@ -40,7 +31,7 @@ function Clock(props: { dob: Date; eod: Date }) {
 
   return (
     <div>
-      <h1>Clock: {timeleft.milliseconds}</h1>
+      <h1>Clock: {displayDuration(timeleft, displaySetting)}</h1>
     </div>
   );
 }
@@ -51,6 +42,7 @@ export type CustomDuration = {
   minutes: number;
   hours: number;
   days: number;
+  weeks: number;
   months: number;
   years: number;
 };
@@ -67,31 +59,72 @@ function calculateDuration(eod: Date): CustomDuration {
     months: differenceInMonths(eod, now),
     years: differenceInYears(eod, now),
   } as CustomDuration;
-  // displayDuration(duration);
   return duration;
 }
 
-function displayDuration(time: CustomDuration): ReactNode {
-  return time.milliseconds;
+function displayDuration(
+  time: CustomDuration,
+  setting: DisplayConfig
+): ReactNode {
+  let displayStr = "";
+  if (setting[7]) {
+    if (time.years >= 1) {
+      displayStr += time.years + " years ";
+    } else {
+      displayStr += " year ";
+    }
+  }
+  if (setting[6]) {
+    if (time.months >= 1) {
+      displayStr += time.months + " months ";
+    } else {
+      displayStr += " month ";
+    }
+  }
+  if (setting[5]) {
+    if (time.weeks >= 1) {
+      displayStr += time.weeks + " weeks ";
+    } else {
+      displayStr += " week ";
+    }
+  }
+  if (setting[4]) {
+    if (time.days >= 1) {
+      displayStr += time.days + " days ";
+    } else {
+      displayStr += " day ";
+    }
+  }
+  if (setting[3]) {
+    if (time.hours >= 1) {
+      displayStr += time.hours + " hours ";
+    } else {
+      displayStr += " hour ";
+    }
+  }
+  if (setting[2]) {
+    if (time.minutes >= 1) {
+      displayStr += time.minutes + " minutes ";
+    } else {
+      displayStr += " minute ";
+    }
+  }
+  if (setting[1]) {
+    if (time.seconds >= 1) {
+      displayStr += time.seconds + " seconds ";
+    } else {
+      displayStr += " second ";
+    }
+  }
+  if (setting[0]) {
+    if (time.milliseconds >= 1) {
+      displayStr += time.milliseconds + " milliseconds ";
+    } else {
+      displayStr += " millisecond ";
+    }
+  }
+
+  return displayStr;
 }
-
-// function toDateStruct(date: Date) {
-//   return {
-//     year: getYear(date),
-//     month: getMonth(date) + 1, // months are 0-indexed
-//     day: getDate(date),
-//     hour: getHours(date),
-//     minute: getMinutes(date),
-//     second: getSeconds(date),
-//   };
-// }
-
-// console.log(toDateStruct(new Date()));
-
-function displayHour() {}
-
-function displayMinute() {}
-
-function displaySecond() {}
 
 export default Clock;
