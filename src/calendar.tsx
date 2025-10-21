@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { DateValues } from "date-fns";
-import { DayPicker as Calendar } from "react-day-picker";
 
 function dateToDateFns(date: Date): DateValues {
   return {
@@ -25,13 +24,15 @@ function CalendarDemo(props: { setDate: (dayjs: Date) => void }) {
   };
 
   return (
-    <Calendar
-      mode="single"
-      selected={new Date()}
-      onSelect={setCalendarInteraction}
-      className="rounded-md border shadow-sm"
-      captionLayout="dropdown"
-      required={true}
+    <input
+      type="date"
+      id="start"
+      name="trip-start"
+      min="1970-01-01"
+      max="2018-12-31"
+      onSelect={(e: React.ChangeEvent<HTMLInputElement>) =>
+        setCalendarInteraction(new Date(e.target.value))
+      }
     />
   );
 }

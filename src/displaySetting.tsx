@@ -15,7 +15,7 @@ function DisplaySetting(props: {
   };
 
   return (
-    <div>
+    <div style={{ display: "flex", alignItems: "center" }}>
       <h2>DisplaySetting:</h2>
       <label>Year</label>
       <input
@@ -66,6 +66,7 @@ function DisplaySetting(props: {
         value={"Second"}
         onChange={(e) => contextualSetSetting(e, 1)}
       />
+      <label>Millisecond</label>
       <input
         type="checkbox"
         checked={setting[0]}
