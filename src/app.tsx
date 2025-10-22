@@ -42,6 +42,7 @@ function App(): JSX.Element {
         <h1>Welcome!</h1>
       </div>
       <SettingContext.Provider value={setting}>
+        {/** To be substituted for text input format with validation */}
         {!dob ? (
           <CalendarDemo setDate={setDob} />
         ) : (
