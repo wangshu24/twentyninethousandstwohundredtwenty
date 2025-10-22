@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { isValid } from "date-fns";
+import { isValid, setDate } from "date-fns";
 
 type DateInputProps = {
   Date: string;
@@ -7,8 +7,11 @@ type DateInputProps = {
   Year: string;
 };
 
-function validateDate(date: Date): boolean {
-  return !isNaN(date.getTime());
+function toggleAlert(alertFunc: (bool: boolean) => void) {
+  alertFunc(true);
+  setTimeout(() => {
+    alertFunc(false);
+  }, 3000);
 }
 
 function DateInput(props: { setDob: (dob: Date) => void }) {
@@ -20,8 +23,22 @@ function DateInput(props: { setDob: (dob: Date) => void }) {
   const { setDob } = props;
   const [alert, setAlert] = useState(false);
 
+  const validateDate = (dateInput: DateInputProps): void => {
+    const date = new Date(
+      parseInt(dateInput.Year),
+      parseInt(dateInput.Month),
+      parseInt(dateInput.Date)
+    );
+    if (!isValid(date)) {
+      toggleAlert(setAlert);
+    } else {
+      setDob(date);
+    }
+  };
+
   return (
     <div>
+      {alert && <p>Invalid Date</p>}
       <label>Date</label>
       <input
         type="text"
@@ -61,7 +78,7 @@ function DateInput(props: { setDob: (dob: Date) => void }) {
           setTextInput({ ...textInput, Year: e.target.value });
         }}
       />
-      <input type="text" onChange={(e) => setDob(new Date(e.target.value))} />
+      <input type="submit" onChange={() => validateDate(textInput)} />
     </div>
   );
 }
