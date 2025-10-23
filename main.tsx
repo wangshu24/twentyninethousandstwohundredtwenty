@@ -10,7 +10,18 @@ if (!root) {
 
 const RenderComponent = () => (
   <React.StrictMode>
-    <App />
+    <div
+      style={{
+        minWidth: "200px",
+        maxWidth: "800px",
+        margin: "auto",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+      }}
+    >
+      <App />
+    </div>
   </React.StrictMode>
 );
 

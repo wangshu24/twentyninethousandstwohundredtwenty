@@ -4,6 +4,7 @@ import CalendarDemo from "./calendar";
 import Clock from "./clock";
 import { DisplayConfig } from "./displayFormat";
 import DisplaySetting from "./displaySetting";
+import DateInput from "./dateInput";
 
 let stored = localStorage.getItem("dob");
 let storedDob: Date | undefined = undefined;
@@ -42,8 +43,12 @@ function App(): JSX.Element {
         <h1>Welcome!</h1>
       </div>
       <SettingContext.Provider value={setting}>
+        {/** To be substituted for text input format with validation */}
         {!dob ? (
-          <CalendarDemo setDate={setDob} />
+          <>
+            <CalendarDemo setDate={setDob} />
+            <DateInput setDob={setDob} />
+          </>
         ) : (
           <Clock dob={dob} eod={addYears(dob, 80)} />
         )}

@@ -31,7 +31,7 @@ function Clock(props: { dob: Date; eod: Date }) {
 
   return (
     <div>
-      <h1>Clock: {displayDuration(timeleft, displaySetting)}</h1>
+      <h1>{displayDuration(timeleft, displaySetting)}</h1>
     </div>
   );
 }
