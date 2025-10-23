@@ -78,7 +78,7 @@ function DateInput(props: { setDob: (dob: Date) => void }) {
           setTextInput({ ...textInput, Year: e.target.value });
         }}
       />
-      <input type="submit" onChange={() => validateDate(textInput)} />
+      <input type="submit" onClick={() => validateDate(textInput)} />
     </div>
   );
 }
